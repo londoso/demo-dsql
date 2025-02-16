@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    demo-dqsl
+
+Globals: # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-template-anatomy-globals.html
+    Function:
+        Timeout: 5
+        MemorySize: 128
+        Runtime: python3.12
+        Layers:
+            - !Sub arn:aws:lambda:${AWS::Region}:017000801446:layer:AWSLambdaPowertoolsPythonV3-python312-x86_64:7
+
+Resources:
+    InsertDataFunction: # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+        Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+        Properties:
+            Handler: app.lambda_handler
+            CodeUri: lambdas/insert_data
+            Description: Insert data function
+            Architectures:
+                - x86_64
+            Events:
+                HelloPath:
+                    Type: Api # More info about API Event Source: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-function-api.html
+                    Properties:
+                        Path: /insert-data
+                        Method: GET
+             # Powertools for AWS Lambda (Python) env vars: https://awslabs.github.io/aws-lambda-powertools-python/#environment-variables
+            Environment:
+                Variables:
+                    POWERTOOLS_SERVICE_NAME: DsqlDemo
+                    POWERTOOLS_METRICS_NAMESPACE: Powertools
+                    LOG_LEVEL: INFO
+            Tags:
+                LambdaPowertools: python
+
+    GetDataFunction: # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+        Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+        Properties:
+            Handler: app.lambda_handler
+            CodeUri: lambdas/get_data
+            Description: Get data function
+            Architectures:
+                - x86_64
+            Events:
+                HelloPath:
+                    Type: Api # More info about API Event Source: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-function-api.html
+                    Properties:
+                        Path: /get-data
+                        Method: GET
+             # Powertools for AWS Lambda (Python) env vars: https://awslabs.github.io/aws-lambda-powertools-python/#environment-variables
+            Environment:
+                Variables:
+                    POWERTOOLS_SERVICE_NAME: DsqlDemo
+                    POWERTOOLS_METRICS_NAMESPACE: Powertools
+                    LOG_LEVEL: INFO
+            Tags:
+                LambdaPowertools: python
+                                
+
+
+Outputs:
+    InsertDataApi:
+      Description: "API Gateway endpoint URL for Prod environment for Insert data Function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/insert-data"
+
+    GetDataApi:
+      Description: "API Gateway endpoint URL for Prod environment for Get data Function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-data"
