@@ -6,16 +6,16 @@ codeuri = "/Users/anderson/repo/demo-dsql/lambdas/insert_data"
 runtime = "python3.12"
 architecture = "x86_64"
 handler = "app.lambda_handler"
-manifest_hash = "197b4deb87ffa3decd9f045926a86cd0"
+manifest_hash = "8c42bbae0dc37446c826a4b759a5bf60"
 packagetype = "Zip"
 functions = ["InsertDataFunction"]
 
-[function_build_definitions.ca33eac9-fa0e-45d5-9f9c-83e1549270ac]
+[function_build_definitions.e8c737e7-44da-44c7-ad58-e24e6ec2b284]
 codeuri = "/Users/anderson/repo/demo-dsql/lambdas/get_data"
 runtime = "python3.12"
 architecture = "x86_64"
 handler = "app.lambda_handler"
-manifest_hash = "197b4deb87ffa3decd9f045926a86cd0"
+manifest_hash = "2938a12a7fcacdab65163da5fb4e2fd9"
 packagetype = "Zip"
 functions = ["GetDataFunction"]
 
