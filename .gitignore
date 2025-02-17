@@ -185,6 +185,9 @@ celerybeat-schedule.*
 # SageMath parsed files
 *.sage.py
 
+# SAM default build folder
+.aws-sam/
+
 # Environments
 .env
 .venv
