@@ -52,6 +52,7 @@ def insert_data():
                 website text);
         """
     cursor.execute(query)
+    conn.commit()
 
     query = """
         INSERT INTO test_table VALUES (%(index)s, %(customer_id)s, %(first_name)s, %(last_name)s, 
@@ -72,7 +73,7 @@ def insert_data():
     cursor.close()
     # Close connection
     conn.close()
-    return {"message": "Registros insertados en la base de datos"}
+    return {"body": "Registros insertados en la base de datos"}
 
 # Enrich logging with contextual information from Lambda
 @logger.inject_lambda_context(correlation_id_path=correlation_paths.API_GATEWAY_REST)

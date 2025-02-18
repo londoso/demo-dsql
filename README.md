@@ -32,21 +32,7 @@ Durante el Preview, Aurora DSQL no se encuentra disponible para ser desplegado a
 git clone https://github.com/londoso/demo-dsql.git
 ```
 
-### 2. Configuración del Bucket S3
-
-Editar el archivo `samconfig.toml`:
-
-```toml
-[default.deploy.parameters]
-capabilities = "CAPABILITY_IAM"
-confirm_changeset = true
-resolve_s3 = false
-s3_bucket = "mi-bucket-s3"  # Reemplazar con tu bucket S3
-```
-
-> **Importante**: El bucket S3 especificado debe existir en tu cuenta de AWS y será utilizado para almacenar los artefactos de despliegue.
-
-### 3. Instalación de AWS SAM CLI
+### 2. Instalación de AWS SAM CLI
 
 Para instalar AWS SAM CLI, sigue los pasos en la [guía oficial de instalación](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html).
 
@@ -72,15 +58,39 @@ sam build --use-container
 ### 2. Despliegue en AWS
 
 ```shell
-sam deploy
+sam deploy --guided
 ```
 
-### 3. Limpieza de Recursos
+```toml
+Stack Name [demo-dqsl]: 
+AWS Region [us-east-1]: 
+Parameter ClusterId [siabt3etsijuyijmtlu2nw6scy]: 
+Parameter DataBucket [dqsl-demo-data-londoso]: 
+#Shows you resources changes to be deployed and require a 'Y' to initiate deploy
+Confirm changes before deploy [Y/n]: 
+#SAM needs permission to be able to create roles to connect to the resources in your template
+Allow SAM CLI IAM role creation [Y/n]: 
+#Preserves the state of previously provisioned resources when an operation fails
+Disable rollback [y/N]: 
+InsertDataFunction has no authentication. Is this okay? [y/N]: Y
+GetDataFunction has no authentication. Is this okay? [y/N]: Y
+Save arguments to configuration file [Y/n]: 
+SAM configuration file [samconfig.toml]: 
+SAM configuration environment [default]: 
+```
+
+### 3. Prueba de los endpoints
+
+![Prueba generación de datos](./images/aurora-dsql-4.png)
+
+![Prueba lectura de datos](./images/aurora-dsql-5.png)
+
+### 4. Limpieza de Recursos
 
 Para evitar cargos innecesarios, elimina los recursos cuando ya no los necesites:
 
 ```shell
-sam destroy
+sam delete
 ```
 
 ## Enlaces de Referencia
